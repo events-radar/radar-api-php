@@ -8,7 +8,6 @@
 /**
  * Configuration options.
  */
-define('API_URL', "https://new-radar.squat.net/api/1.0/");
 define('CACHE_PATH', '/tmp/radar-cache');
 
 

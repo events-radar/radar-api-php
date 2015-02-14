@@ -9,10 +9,18 @@ use Guzzle\Http\Message\Response;
 class Connect {
 
   /**
-   * @var Client
+   * @var ClientInterface Guzzle HTTP Client
    */
   protected $client;
 
+  /**
+   * @var string URL of API endpoint.
+   */
+  public $apiUrl;
+
+  /**
+   * @var bool Debug switch true for verbose.
+   */
   public $debug;
 
   /**
@@ -21,13 +29,18 @@ class Connect {
    * @param ClientInterface $client
    *   Guzzle HTTP Client.
    * @param array $configuration
-   *   @todo debug for a start!
    */
   public function __construct(ClientInterface $client, $configuration = array()) {
     $this->client = $client;
     $this->client->setDefaultOption('headers', array('Accept' => 'application/json'));
 
-    $debug = FALSE;
+    if (!empty($configuration['api_url'])) {
+      $this->apiUrl = $configuration['api_url'];
+    }
+    else {
+      $this->apiUrl = 'https://new-radar.squat.net/api/1.0/';
+    }
+    $this->debug = !empty($configuration['debug']);
   }
 
   /**
@@ -57,7 +70,7 @@ class Connect {
   }
 
   public function prepareEventsRequest(Filter $filter) {
-    $request = $this->client->get(API_URL . 'search/events.json');
+    $request = $this->client->get($this->apiUrl . 'search/events.json');
     $query = $request->getQuery();
     $query->set('facets', $filter->getQuery());
     $query->set('fields', array(
@@ -82,7 +95,7 @@ class Connect {
   }
 
   public function prepareGroupsRequest(Filter $filter) {
-    $request = $this->client->get(API_URL . 'search/groups.json');
+    $request = $this->client->get($this->apiUrl . 'search/groups.json');
     $query = $request->getQuery();
     $query->set('facets', $filter->getQuery());
     $query->set('fields', array('type', 'title', 'uuid'));
