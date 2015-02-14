@@ -1,5 +1,5 @@
 {
-  "name": "radar-events/radar-api-php",
+  "name": "events-radar/radar-api-php",
   "description": "Radar API connect",
   "license": "GPL-2.0+",
   "require": {
