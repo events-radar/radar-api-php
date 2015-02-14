@@ -13,6 +13,8 @@ class Connect {
    */
   protected $client;
 
+  public $debug;
+
   /**
    * Constructor.
    *
@@ -26,6 +28,8 @@ class Connect {
     $this->client->setDefaultOption('headers', array('Accept' => 'application/json'));
     // @todo just while there's still no decent cert.
     $this->client->setDefaultOption('verify', FALSE);
+
+    $debug = FALSE;
   }
 
   /**
@@ -58,7 +62,24 @@ class Connect {
     $request = $this->client->get(API_URL . 'search/events.json');
     $query = $request->getQuery();
     $query->set('facets', $filter->getQuery());
-    $query->set('fields', array('type', 'title', 'uuid'));
+    $query->set('fields', array(
+      'title',
+      'type',
+      'uuid',
+      'og_group_ref',
+      'date_time',
+      'offline',
+      'category',
+      'topic',
+      'price',
+      'link',
+      'phone',
+      'body',
+      'image',
+      'language',
+      'created',
+      'updated',
+    ));
     return $request;
   }
 
@@ -74,6 +95,10 @@ class Connect {
    */
   public function retrieve(RequestInterface $request) {
     $response = $this->client->send($request);
+    if ($this->debug) {
+      var_export($response->getHeaders());
+      var_export($response->getBody());
+    }
     return $this->parseResponse($response);
   }
 
