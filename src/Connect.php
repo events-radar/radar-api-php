@@ -26,8 +26,6 @@ class Connect {
   public function __construct(ClientInterface $client, $configuration = array()) {
     $this->client = $client;
     $this->client->setDefaultOption('headers', array('Accept' => 'application/json'));
-    // @todo just while there's still no decent cert.
-    $this->client->setDefaultOption('verify', FALSE);
 
     $debug = FALSE;
   }
