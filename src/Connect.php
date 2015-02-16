@@ -55,10 +55,29 @@ class Connect {
     return call_user_func_array(array($this->client, $name), $arguments);
   }
 
+  /**
+   * Set a cache to store entities.
+   *
+   * @param \Radar\Connect\Cache $cache
+   */
   public function setCache(Cache $cache) {
     $this->cache = $cache;
   }
 
+  /**
+   * Retrieve all fields for single entity.
+   *
+   * Entities can be partly loaded. Especially when just a reference on
+   * an event or group. Use this to retrieve the full entity.
+   * If there is a cache set, and the entity is still validly cached
+   * this will be returned rather than making a new query.
+   *
+   * @param Entity $entity
+   *   The partly loaded entity.
+   *
+   * @return Entity
+   *   The loaded entity.
+   */
   public function retrieveEntity(Entity $entity) {
     if (!empty($this->cache) && $this->cache->contains($entity)) {
       return $this->cache->fetch($entity);
@@ -71,6 +90,17 @@ class Connect {
     return $entity;
   }
 
+  /**
+   * Retrieve all fields for multiple entities.
+   *
+   * As retrieveEntity(), but making multiple concurrent requests.
+   *
+   * @param Entity[] $entities
+   *   Array of partly loaded entities.
+   *
+   * @return Entity[]
+   *   Array of loaded entities.
+   */
   public function retrieveEntityMultiple(&$entities) {
     $cached = array();
     if (!empty($this->cache)) {
@@ -98,44 +128,111 @@ class Connect {
     return $entities;
   }
 
+  /**
+   * TODO Insert or update an existing Entity.
+   */
   public function putEntity(Entity $entity) {
 
   }
 
-  public function prepareEventsRequest(Filter $filter) {
+
+
+  /**
+   * Prepare a request to retrieve events.
+   *
+   * @see self::retrieve()
+   *
+   * @param Filter $filter
+   * @param array $fields
+   *   A list of fields to load. Optional, default is most available fields.
+   * @param int $limit
+   *   How many events to return.
+   *
+   * @return \Guzzle\Http\Message\Request
+   *   Request object to retrieve.
+   */
+  public function prepareEventsRequest(Filter $filter, $fields = array(), $limit = 500) {
     $request = $this->client->get($this->apiUrl . 'search/events.json');
     $query = $request->getQuery();
     $query->set('facets', $filter->getQuery());
-    $query->set('fields', array(
-      'title',
-      'type',
-      'uuid',
-      'og_group_ref',
-      'date_time',
-      'offline',
-      'category',
-      'topic',
-      'price',
-      'link',
-      'phone',
-      'body',
-      'image',
-      'language',
-      'created',
-      'updated',
-    ));
-    return $request;
-  }
-
-  public function prepareGroupsRequest(Filter $filter) {
-    $request = $this->client->get($this->apiUrl . 'search/groups.json');
-    $query = $request->getQuery();
-    $query->set('facets', $filter->getQuery());
-    $query->set('fields', array('type', 'title', 'uuid'));
+    if (! empty($fields)) {
+      // Always retrieve type.
+      $fields += array('type');
+    }
+    else {
+      $fields = array(
+        'title',
+        'type',
+        'uuid',
+        'og_group_ref',
+        'date_time',
+        'offline',
+        'category',
+        'topic',
+        'price',
+        'link',
+        'phone',
+        'body',
+        'image',
+        'language',
+        'created',
+        'updated',
+        'view_url',
+      );
+    }
+    $query->set('fields', $fields);
+    $query->set('limit', $limit);
     return $request;
   }
 
   /**
+   * Prepare a request to retrieve groups.
+   *
+   * @see self::retrieve()
+   *
+   * @param Filter $filter
+   * @param array $fields
+   *   A list of fields to load. Optional, default is most available fields.
+   * @param int $limit
+   *   How many groups to return.
+   *
+   * @return \Guzzle\Http\Message\Request
+   *   Request object to retrieve.
+   */
+  public function prepareGroupsRequest(Filter $filter, $fields = array(), $limit = 500) {
+    $request = $this->client->get($this->apiUrl . 'search/groups.json');
+    $query = $request->getQuery();
+    $query->set('facets', $filter->getQuery());
+    if (! empty($fields)) {
+      $fields += array('type');
+    }
+    else {
+      $fields = array(
+        'title',
+        'type',
+        'category',
+        'offline',
+        'topic',
+        'body',
+        'email',
+        'weblink',
+        'offline',
+        'opening_times',
+        'phone',
+        'view_url',
+      );
+    }
+    $query->set('fields', $fields);
+    $query->set('limit', $limit);
+    return $request;
+  }
+
+  /**
+   * Retrieve entities from a prepared request.
+   *
+   * @param \Guzzle\Http\Message\RequestInterface $request
+   *
+   * @return Entity[]
    */
   public function retrieve(RequestInterface $request) {
     $response = $this->client->send($request);
@@ -147,6 +244,13 @@ class Connect {
   }
 
   /**
+   * Retrieve entities from multiple prepared requests.
+   *
+   * Results are merged into one entity array.
+   *
+   * @param \Guzzle\Http\Message\RequestInterface[] $requests
+   *
+   * @return Entity[]
    */
   public function retrieveMultiple($requests) {
     try {

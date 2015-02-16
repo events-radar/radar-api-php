@@ -61,8 +61,11 @@ function radar_events_retrieve(\Radar\Connect\Connect $client) {
   // See docs/classes/Radar.Connect.Filter.html for full list of methods.
 
   // Get the request.
-  $request = $client->prepareEventsRequest($filter);
-
+  // arguments:
+  //   $filter - prepared above,
+  //   $fields - array of field names to collect, empty for default
+  //   $limit - maximum number of events to return.
+  $request = $client->prepareEventsRequest($filter, array(), 50);
   // Execute request.
   return $client->retrieve($request);
 }
