@@ -96,13 +96,13 @@ class Node extends Entity {
   }
 
   public function getCreated() {
-    $created = new DateTime();
+    $created = new \DateTime();
     $created->setTimestamp($this->created);
     return $created;
   }
 
   public function getUpdated() {
-    $updated = new DateTime();
+    $updated = new \DateTime();
     $updated->setTimestamp($this->changed);
     return $updated;
   }
