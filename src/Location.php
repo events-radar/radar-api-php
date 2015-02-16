@@ -28,7 +28,7 @@ class Location extends Entity {
       return $this->apiUri;
     }
     elseif (isset($this->uuid)) {
-      return API_URL . 'location/' . $this->uuid;
+      return $this->apiBase . 'location/' . $this->uuid;
     }
 
     throw new Exception();
