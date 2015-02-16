@@ -25,7 +25,7 @@ class TaxonomyTerm extends Entity {
       return $this->apiUri;
     }
     elseif (isset($this->uuid)) {
-      return API_URL . 'taxonomy_term/' . $this->uuid;
+      return $this->apiBase . 'taxonomy_term/' . $this->uuid;
     }
 
     throw new Exception();

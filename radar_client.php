@@ -9,6 +9,7 @@ require 'vendor/autoload.php';
 
 use Radar\Connect\Connect;
 use Radar\Connect\Filter;
+use Radar\Connect\Cache;
 use Guzzle\Http\Client;
 use Doctrine\Common\Cache\FilesystemCache;
 use Guzzle\Cache\DoctrineCacheAdapter;
@@ -36,6 +37,8 @@ function radar_client() {
   $guzzle->addSubscriber($cachePlugin);
 
   $connect = new Connect($guzzle);
+  $cache = radar_cache();
+  $connect->setCache(new Cache($cache));
   $connect->debug = FALSE;
 
   return $connect;
@@ -51,8 +54,12 @@ function radar_client() {
  *   Doctrine file system cache.
  */
 function radar_cache() {
-  $cache = new FilesystemCache(CACHE_PATH);
-  $cache->setNamespace('radar_');
+  static $cache = NULL;
+
+  if (is_null($cache)) {
+    $cache = new FilesystemCache(CACHE_PATH);
+    $cache->setNamespace('radar_');
+  }
 
   return $cache;
 }

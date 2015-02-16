@@ -10,6 +10,7 @@ abstract class Entity {
   public $vuuid;
   public $type;
   protected $apiUri;
+  protected $apiBase;
 
   /**
    * @todo automatic class mappings from available.

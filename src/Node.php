@@ -31,7 +31,7 @@ class Node extends Entity {
       return $this->apiUri;
     }
     elseif (isset($this->uuid)) {
-      return API_URL . 'node/' . $this->uuid;
+      return $this->apiBase . 'node/' . $this->uuid;
     }
 
     throw new Exception();
