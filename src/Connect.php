@@ -5,6 +5,7 @@ namespace Radar\Connect;
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\Message\RequestInterface;
 use Guzzle\Http\Message\Response;
+use Radar\Connect\Entity\Entity;
 
 class Connect {
 
@@ -276,13 +277,13 @@ class Connect {
 
     $content = $response->json();
     if (isset($content['type'])) {
-      $class = __NAMESPACE__ . '\\' . Entity::className($content['type']);
+      $class = __NAMESPACE__ . '\\Entity\\' . Entity::className($content['type']);
       $content['apiBase'] = $this->apiUrl;
       $items[] = new $class($content);
     }
     else {
       foreach ($content as $key => $item) {
-        $class = __NAMESPACE__ . '\\' . Entity::className($item['type']);
+        $class = __NAMESPACE__ . '\\Entity\\' . Entity::className($item['type']);
         $item['apiBase'] = $this->apiUrl;
         $items[] = new $class($item);
       }

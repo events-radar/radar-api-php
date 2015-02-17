@@ -1,6 +1,7 @@
 <?php
 
-namespace Radar\Connect;
+namespace Radar\Connect\Entity;
+
 use phayes\geoPHP\geoPHP;
 
 class Location extends Entity {

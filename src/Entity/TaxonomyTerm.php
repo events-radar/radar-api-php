@@ -1,6 +1,6 @@
 <?php
 
-namespace Radar\Connect;
+namespace Radar\Connect\Entity;
 
 class TaxonomyTerm extends Entity {
   public $name;

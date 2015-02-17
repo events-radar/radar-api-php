@@ -8,6 +8,7 @@
 namespace Radar\Connect;
 
 use Doctrine\Common\Cache\Cache as CacheInterface;
+use Radar\Connect\Entity\Entity;
 
 class Cache {
   /**

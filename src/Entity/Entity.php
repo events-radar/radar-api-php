@@ -1,6 +1,6 @@
 <?php
 
-namespace Radar\Connect;
+namespace Radar\Connect\Entity;
 
 abstract class Entity {
 
@@ -13,7 +13,7 @@ abstract class Entity {
   protected $apiBase;
 
   /**
-   * @todo automatic class mappings from available.
+   * TODO automatic class mappings from available.
    */
   static function className($type) {
     $classes = array(

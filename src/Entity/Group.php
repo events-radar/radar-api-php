@@ -1,6 +1,6 @@
 <?php
 
-namespace Radar\Connect;
+namespace Radar\Connect\Entity;
 
 class Group extends Node {
   public $group_logo;

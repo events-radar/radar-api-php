@@ -1,15 +1,15 @@
 <?php
 
-namespace Radar\Connect;
+namespace Radar\Connect\Entity;
 
-class ListingsGroup extends Node {
+ class ListingsGroup extends Node {
   public $group_logo;
   public $email;
   public $link;
   public $offline;
   public $phone;
 
-  function __construct($data = array()) {
+   function __construct($data = array()) {
     $this->set($data);
     $this->type = 'listings_group';
   }

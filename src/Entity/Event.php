@@ -1,6 +1,6 @@
 <?php
 
-namespace Radar\Connect;
+namespace Radar\Connect\Entity;
 
 class Event extends Node {
   public $og_group_ref;
