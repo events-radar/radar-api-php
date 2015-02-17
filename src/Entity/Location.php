@@ -60,8 +60,8 @@ class Location extends Entity {
   public function getAddress($include = array('name_line', 'thoroughfare', 'locality'), $seperator = ', ') {
     $address = array();
     foreach ($include as $part) {
-      if (! empty($this->address->$part)) {
-        $address[] = $this->address->$part;
+      if (! empty($this->address[$part])) {
+        $address[] = $this->address[$part];
       }
     }
     return implode($seperator, $address);
@@ -80,6 +80,6 @@ class Location extends Entity {
   }
 
   public function getLocation() {
-    return new geoPHP($this->map->geom);
+    return new geoPHP($this->map['geom']);
   }
 }
