@@ -6,6 +6,7 @@ class TaxonomyTerm extends Entity {
   public $name;
   public $description;
   public $node_count;
+  public $vocabulary;
 
   public function __construct($data = array()) {
     $this->set($data);
@@ -17,6 +18,9 @@ class TaxonomyTerm extends Entity {
     parent::set($data);
     if (isset($data['tid'])) {
       $this->drupalId = $data['tid'];
+    }
+    if (isset($data['type'])) {
+      $this->vocabulary = $data['type'];
     }
   }
 
@@ -33,6 +37,15 @@ class TaxonomyTerm extends Entity {
 
   public function getTitle() {
     return $this->name;
+  }
+
+  /**
+   * Type of term: 'category' or 'topic'.
+   *
+   * @return string
+   */
+  public function getVocabulary() {
+    return $this->vocabulary;
   }
 
   public function getNodeCount() {

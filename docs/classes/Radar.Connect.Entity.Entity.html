@@ -114,7 +114,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">174</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">146</span>
                                 </a>
                             </li>
                             <li>
@@ -144,37 +144,37 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1476941794"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-550195720"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1476941794" class="accordion-body collapse in">
+            <div id="namespace-550195720" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1976204223"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1950595330"></a>
                                 <a href="../namespaces/Radar.html" style="margin-left: 30px; padding-left: 0">Radar</a>
             </div>
-            <div id="namespace-1976204223" class="accordion-body collapse ">
+            <div id="namespace-1950595330" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1057370676"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-756229370"></a>
                                 <a href="../namespaces/Radar.Connect.html" style="margin-left: 30px; padding-left: 0">Connect</a>
             </div>
-            <div id="namespace-1057370676" class="accordion-body collapse ">
+            <div id="namespace-756229370" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-456456878"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1122654019"></a>
                                 <a href="../namespaces/Radar.Connect.Entity.html" style="margin-left: 30px; padding-left: 0">Entity</a>
             </div>
-            <div id="namespace-456456878" class="accordion-body collapse ">
+            <div id="namespace-1122654019" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -512,7 +512,7 @@
                 <h3 class="public ">className()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">className(  <span class="argument">$type</span>) </pre>
-                <p><em>TODO automatic class mappings from available.</em></p>
+                <p><em>TODO move this to the controller Connect class.</em></p>
                 
 
                                     <h4>Parameters</h4>
@@ -581,14 +581,14 @@
             <article class="method">
                 <h3 class="public ">set()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">set(  <span class="argument">$data</span>) </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">set(array  <span class="argument">$data</span>) </pre>
+                <p><em>Set data for entity.</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>array</td>
                                 <td>$data </td>
                                 <td></td>
                             </tr>
@@ -615,13 +615,15 @@
             <article class="method">
                 <h3 class="public ">apiUri()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">apiUri() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">apiUri() : string</pre>
+                <p><em>Return the API URI for this entity.</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    string
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -642,13 +644,15 @@
             <article class="method">
                 <h3 class="public ">getUuid()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getUuid() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">getUuid() : string|null</pre>
+                <p><em>Return the UUID for the entity.</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    string|null
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -668,13 +672,15 @@
             <article class="method">
                 <h3 class="public ">getVuuid()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getVuuid() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">getVuuid() : string|null</pre>
+                <p><em>Return the Version UUID for the entity.</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    string|null
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -694,13 +700,15 @@
             <article class="method">
                 <h3 class="public ">getInternalId()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getInternalId() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">getInternalId() : integer|null</pre>
+                <p><em>Return the Drupal internal ID for the entity.</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    integer|null
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -720,13 +728,15 @@
             <article class="method">
                 <h3 class="public ">getInternalVid()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getInternalVid() </pre>
-                <p><em></em></p>
+                <pre class="signature" style="margin-right: 54px;">getInternalVid() : integer|null</pre>
+                <p><em>Return the Drupal internal version ID for the entity.</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    integer|null
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -790,7 +800,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on February 18th, 2015 at 15:53.
+                    on February 22nd, 2015 at 11:34.
                 </section>
             </section>
         </section>
