@@ -8,7 +8,7 @@ class Event extends Node {
   public $image;
   public $price;
   public $email;
-  public $weblink;
+  public $link;
   public $offline;
   public $phone;
 
@@ -29,6 +29,11 @@ class Event extends Node {
     return $og_group_ref;
   }
 
+  /**
+   * Return associated groups as group entities.
+   *
+   * @return Group[]
+   */
   public function getGroups() {
     $groups = array();
     foreach ($this->og_group_ref as $group) {
@@ -37,10 +42,36 @@ class Event extends Node {
     return $groups;
   }
 
-  public function getDateRaw() {
+  /**
+   * Return raw event date array.
+   *
+   * An array of keyed arrays.
+   *
+   * Array[]
+   *  ['value']            start unix timestamp
+   *  ['value2']           end unix timestamp
+   *  ['time_start']       start ISO 8601 time with timezone
+   *  ['time_end']         end ISO 8601 time with timezone
+   *  ['rrule']            RFC5545 iCalendar repeat rule
+   *
+   * @return array
+   */
+  public function getDatesRaw() {
     return $this->date_time;
   }
 
+  /**
+   * Return event date.
+   *
+   * An array of keyed arrays.
+   *
+   * Array[]
+   *  ['start']           \DateTime start
+   *  ['end']             \DateTime|null end
+   *  ['rrule']           RFC 5545 iCalendar repeat rule
+   *
+   * @return array
+   */
   public function getDates() {
     $dates = array();
     foreach ($this->date_time as $feed_date) {
@@ -53,10 +84,24 @@ class Event extends Node {
     return $dates;
   }
 
+  /**
+   * Return image field data.
+   *
+   * TODO API isn't putting the data into the output.
+   */
   public function getImageRaw() {
-    return $this->image->file;
+    return $this->image;
   }
 
+  /**
+   * Return the price.
+   *
+   * This is a multiple text field with defaults 'free entrance',
+   * 'by donation', 'membership fee', and free text.
+   *
+   * @return string[]
+   *   Array of strings describing price.
+   */
   public function getPrice() {
     return $this->price;
   }
@@ -65,6 +110,11 @@ class Event extends Node {
     return $this->price;
   }
 
+  /**
+   * Return email.
+   *
+   * @return string
+   */
   public function getEmail() {
     return $this->email;
   }
@@ -73,18 +123,39 @@ class Event extends Node {
     return $this->email;
   }
 
+  /**
+   * Return array of url links for the event.
+   *
+   * @return string[]
+   */
   public function getLink() {
-    return $this->weblink->url;
+    $links = array();
+    foreach ($this->link as $link) {
+      $links[] = $link['url'];
+    }
+    return $links;
   }
 
+  /**
+   * Return array of array url links for the event.
+   *
+   * Keyed with 'url', and unused 'attributes'.
+   *
+   * @return array
+   */
   public function getLinkRaw() {
-    return $this->weblink;
+    return $this->link;
   }
 
   public function getLocationsRaw() {
     return $this->offline;
   }
 
+  /**
+   * Return event locations.
+   *
+   * @return Location[]
+   */
   public function getLocations() {
     $locations = array();
     foreach ($this->offline as $location) {
@@ -93,6 +164,11 @@ class Event extends Node {
     return $locations;
   }
 
+  /**
+   * Return phone number.
+   *
+   * @return string
+   */
   public function getPhone() {
     return $this->phone;
   }

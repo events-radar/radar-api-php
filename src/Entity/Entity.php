@@ -13,7 +13,7 @@ abstract class Entity {
   protected $apiBase;
 
   /**
-   * TODO automatic class mappings from available.
+   * TODO move this to the controller Connect class.
    */
   static function className($type) {
     $classes = array(
@@ -32,6 +32,11 @@ abstract class Entity {
 
   abstract public function __construct($data = array());
 
+  /**
+   * Set data for entity.
+   *
+   * @param array $data
+   */
   public function set($data) {
     foreach ($this as $key => $value) {
       if (isset($data[$key])) {
@@ -43,21 +48,46 @@ abstract class Entity {
     }
   }
 
+  /**
+   * Return the API URI for this entity.
+   *
+   * @return string
+   */
   abstract function apiUri();
 
+  /**
+   * Return the UUID for the entity.
+   *
+   * @return string|null
+   */
   public function getUuid() {
-    return $this->uuid;
+    return !empty($this->uuid) ? $this->uuid : null;
   }
 
+  /**
+   * Return the Version UUID for the entity.
+   *
+   * @return string|null
+   */
   public function getVuuid() {
-    return $this->vuuid;
+    return !empty($this->vuuid) ? $this->vuuid : null;
   }
 
+  /**
+   * Return the Drupal internal ID for the entity.
+   *
+   * @return int|null
+   */
   public function getInternalId() {
-    return $this->drupalId;
+    return !empty($this->drupalId) ? $this->drupalId : null;
   }
 
+  /**
+   * Return the Drupal internal version ID for the entity.
+   *
+   * @return int|null
+   */
   public function getInternalVid() {
-    return $this->drualVersionId;
+    return !empty($this->drupalVersionId) ? $this->drupalVersionId : null;
   }
 }

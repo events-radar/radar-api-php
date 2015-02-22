@@ -272,6 +272,11 @@ class Connect {
     return $items;
   }
 
+  /**
+   * Parse a response from the client.
+   *
+   * TODO this doesn't need to be in here.
+   */
   protected function parseResponse(Response $response) {
     $items = array();
 
