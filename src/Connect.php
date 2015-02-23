@@ -158,7 +158,7 @@ class Connect {
     $query->set('facets', $filter->getQuery());
     if (! empty($fields)) {
       // Always retrieve type.
-      $fields += array('type');
+      $fields = array_merge($fields, array('type'));
     }
     else {
       $fields = array(
