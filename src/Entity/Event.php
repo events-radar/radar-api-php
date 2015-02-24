@@ -94,12 +94,9 @@ class Event extends Node {
   }
 
   /**
-   * Return the price.
+   * Return the price, free text field.
    *
-   * This is a multiple text field with defaults 'free entrance',
-   * 'by donation', 'membership fee', and free text.
-   *
-   * @return string[]
+   * @return string
    *   Array of strings describing price.
    */
   public function getPrice() {
