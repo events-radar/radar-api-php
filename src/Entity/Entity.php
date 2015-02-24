@@ -26,6 +26,7 @@ abstract class Entity {
       'taxonomy_term' => 'TaxonomyTerm',
       'category' => 'TaxonomyTerm',
       'topic' => 'TaxonomyTerm',
+      'price_category' => 'TaxonomyTerm',
     );
     return $classes[$type];
   }

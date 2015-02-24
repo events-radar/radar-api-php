@@ -6,6 +6,7 @@ class Event extends Node {
   public $og_group_ref;
   public $date_time;
   public $image;
+  public $price_category;
   public $price;
   public $email;
   public $link;
@@ -92,6 +93,26 @@ class Event extends Node {
   public function getImageRaw() {
     return $this->image;
   }
+
+  public function getPriceCategoryRaw() {
+    return $this->price_category;
+  }
+
+  /**
+   * Return price category.
+   *
+   * @return TaxonomyTerm[]
+   */
+  public function getPriceCategory() {
+    $categories = array();
+    if (is_array($this->price_category)) {
+      foreach ($this->price_category as $price_category) {
+        $price_categories[] = new TaxonomyTerm($price_category);
+      }
+    }
+    return $price_categories;
+  }
+
 
   /**
    * Return the price, free text field.

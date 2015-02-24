@@ -43,6 +43,10 @@ class EventTest extends EntityTestCase {
     $this->assertEquals($event->getLink(), array('http://www.joesgarage.nl/'));
     $this->assertEquals($event->getPhone(), '01-12345');
     // Entity references.
+    $price = $event->getPriceCategory();
+    $this->assertTrue($price[0] instanceof \Radar\Connect\Entity\TaxonomyTerm);
+    $this->assertEquals($price[0]->apiUri(), 'https://new-radar.squat.net/api/1.0/taxonomy_term/9d943d0c-e2bf-408e-9110-4bfb044f60c0');
+    $this->assertEquals($price[1]->apiUri(), 'https://new-radar.squat.net/api/1.0/taxonomy_term/6f4101f4-cd9b-49f2-91a3-203d2b47a3ed');
     $groups = $event->getGroups();
     $this->assertTrue($groups[0] instanceof \Radar\Connect\Entity\Group);
     $this->assertEquals($groups[0]->apiUri(), 'https://new-radar.squat.net/api/1.0/node/0df4bcd7-54b4-4559-a960-60b5042d3d48');
