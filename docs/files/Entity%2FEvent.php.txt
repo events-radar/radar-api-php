@@ -6,6 +6,7 @@ class Event extends Node {
   public $og_group_ref;
   public $date_time;
   public $image;
+  public $price_category;
   public $price;
   public $email;
   public $link;
@@ -93,13 +94,30 @@ class Event extends Node {
     return $this->image;
   }
 
+  public function getPriceCategoryRaw() {
+    return $this->price_category;
+  }
+
   /**
-   * Return the price.
+   * Return price category.
    *
-   * This is a multiple text field with defaults 'free entrance',
-   * 'by donation', 'membership fee', and free text.
+   * @return TaxonomyTerm[]
+   */
+  public function getPriceCategory() {
+    $categories = array();
+    if (is_array($this->price_category)) {
+      foreach ($this->price_category as $price_category) {
+        $price_categories[] = new TaxonomyTerm($price_category);
+      }
+    }
+    return $price_categories;
+  }
+
+
+  /**
+   * Return the price, free text field.
    *
-   * @return string[]
+   * @return string
    *   Array of strings describing price.
    */
   public function getPrice() {
