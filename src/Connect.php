@@ -170,6 +170,7 @@ class Connect {
         'offline',
         'category',
         'topic',
+        'price_category',
         'price',
         'link',
         'phone',
