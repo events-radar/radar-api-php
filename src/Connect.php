@@ -49,7 +49,6 @@ class Connect {
     $this->debug = !empty($configuration['debug']);
   }
 
-if (empty($view->style_plugin->options['type'])) { dsm($view->style_plugin->options); dsm($view->style_plugin); }
   /**
    * For now also just allow direct access to guzzle itself.
    */
@@ -171,7 +170,6 @@ if (empty($view->style_plugin->options['type'])) { dsm($view->style_plugin->opti
         'offline',
         'category',
         'topic',
-        'price_category',
         'price',
         'link',
         'phone',
