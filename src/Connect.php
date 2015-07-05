@@ -282,17 +282,24 @@ class Connect {
     $items = array();
 
     $content = $response->json();
+
     if (isset($content['type'])) {
+      // Single item response.
       $class = __NAMESPACE__ . '\\Entity\\' . Entity::className($content['type']);
       $content['apiBase'] = $this->apiUrl;
       $items[] = new $class($content);
     }
-    else {
+    elseif (!empty(current($content))) {
+      // List response, that is non-empty.
       foreach ($content as $key => $item) {
         $class = __NAMESPACE__ . '\\Entity\\' . Entity::className($item['type']);
         $item['apiBase'] = $this->apiUrl;
         $items[] = new $class($item);
       }
+    }
+    else {
+      // Empty response.
+      $items = array();
     }
 
     return $items;
