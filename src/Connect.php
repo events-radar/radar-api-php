@@ -290,17 +290,20 @@ class Connect {
       $content['apiBase'] = $this->apiUrl;
       $items[] = new $class($content);
     }
-    elseif (!empty(current($content))) {
-      // List response, that is non-empty.
-      foreach ($content as $key => $item) {
-        $class = __NAMESPACE__ . '\\Entity\\' . Entity::className($item['type']);
-        $item['apiBase'] = $this->apiUrl;
-        $items[] = new $class($item);
-      }
-    }
     else {
-      // Empty response.
-      $items = array();
+      $first_content_item = current($content);
+      if (!empty($first_content_item)) {
+        // List response, that is non-empty.
+        foreach ($content as $key => $item) {
+          $class = __NAMESPACE__ . '\\Entity\\' . Entity::className($item['type']);
+          $item['apiBase'] = $this->apiUrl;
+          $items[] = new $class($item);
+        }
+      }
+      else {
+        // Empty response.
+        $items = array();
+      }
     }
 
     return $items;
