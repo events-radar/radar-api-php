@@ -165,6 +165,7 @@ class Connect {
         'title',
         'type',
         'uuid',
+        'nid',
         'og_group_ref',
         'date_time',
         'offline',
