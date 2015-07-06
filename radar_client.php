@@ -5,7 +5,7 @@
  *   Helper functions to create radar connect classes.
  */
 
-require 'vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 use Radar\Connect\Connect;
 use Radar\Connect\Filter;
