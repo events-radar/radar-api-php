@@ -98,20 +98,23 @@ function radar_events_format(\Radar\Connect\Connect $client, array $events, $out
 
     // The groups are references. If we want to get details about
     // them we actually load the group itself as well.
-    $groups = $client->retrieveEntityMultiple($event->getGroups());
+    $groups = $event->getGroups();
+    $groups = $client->retrieveEntityMultiple($groups);
     foreach ($groups as $group) {
       print '<p><strong>' . $group->getTitle() . '</strong></p>';
     }
 
     // Just as with the groups the locations are just the references.
     // So we load them here.
-    $locations = $client->retrieveEntityMultiple($event->getLocations());
+    $locations = $event->getLocations();
+    $locations = $client->retrieveEntityMultiple($locations);
     foreach ($locations as $location) {
       print '<p>' . $location->getAddress() . '</p>';
     }
 
     // Yep and the categories, and topics.
-    $categories = $client->retrieveEntityMultiple($event->getCategories());
+    $categories = $event->getCategories();
+    $categories = $client->retrieveEntityMultiple($categories);
     $category_names = array();
     foreach ($categories as $category) {
       $category_names[] = $category->getTitle();
@@ -120,7 +123,8 @@ function radar_events_format(\Radar\Connect\Connect $client, array $events, $out
       print '<p>Categories: ' . implode(', ', $category_names);
     }
 
-    $topics = $client->retrieveEntityMultiple($event->getTopics());
+    $topics = $event->getTopics();
+    $topics = $client->retrieveEntityMultiple($topics);
     $topic_names = array();
     foreach ($topics as $topic) {
       $topic_names[] = $topic->getTitle();
