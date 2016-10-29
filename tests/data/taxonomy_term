@@ -12,4 +12,4 @@ Content-Length: 360
 Content-Type: application/json
 Strict-Transport-Security: max-age=15768000;includeSubDomains
 
-{"tid":"7","name":"action/protest/camp","description":"","weight":"0","node_count":10,"url":"https://new-radar.squat.net/en/category/action-protest-camp","parent":[],"parents_all":[{"uri":"https://new-radar.squat.net/api/1.0/taxonomy_term/7","id":"7","resource":"taxonomy_term"}],"feed_nid":null,"type":"category","uuid":"e85a688d-03ac-4008-a3cb-1adb7e8f718a"}
+{"tid":"7","name":"action/protest/camp","description":"","weight":"0","node_count":10,"url":"https://radar.squat.net/en/category/action-protest-camp","parent":[],"parents_all":[{"uri":"https://radar.squat.net/api/1.0/taxonomy_term/7","id":"7","resource":"taxonomy_term"}],"feed_nid":null,"type":"category","uuid":"e85a688d-03ac-4008-a3cb-1adb7e8f718a"}
