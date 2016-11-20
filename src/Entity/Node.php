@@ -65,7 +65,11 @@ class Node extends Entity {
   }
 
   public function getCategoriesRaw() {
-    return $this->category;
+    $categories = array();
+    foreach ($this->category as $category) {
+      $categories[$category['id']] = $category;
+    }
+    return $category;
   }
 
   /**
@@ -77,14 +81,18 @@ class Node extends Entity {
     $categories = array();
     if (is_array($this->category)) {
       foreach ($this->category as $category) {
-        $categories[] = new TaxonomyTerm($category);
+        $categories[$category['id']] = new TaxonomyTerm($category);
       }
     }
     return $categories;
   }
 
   public function getTopicsRaw() {
-    return $this->topics;
+    $topics = array();
+    foreach ($this->topic as $topic) {
+      $topics[$topic['id']] = $topic;
+    }
+    return $topics;
   }
 
   /**
@@ -96,7 +104,7 @@ class Node extends Entity {
     $topics = array();
     if (is_array($this->topic)) {
       foreach ($this->topic as $topic) {
-        $topics[] = new TaxonomyTerm($topic);
+        $topics[$topic['id']] = new TaxonomyTerm($topic);
       }
     }
     return $topics;
