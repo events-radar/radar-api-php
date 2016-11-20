@@ -10,6 +10,18 @@ class Filter {
   private $query;
 
   /**
+   * Add arbitary filter, knowing key.
+   *
+   * If you add something that doesn't work it usually just returns no results.
+   *
+   * @param string key
+   * @param string value
+   */
+  public function add($key, $value) {
+    $this->query[$key][] = $value;
+  }
+
+  /**
    * Filter by group.
    *
    * @param int $id
@@ -43,7 +55,7 @@ class Filter {
   /**
    * Filter by year.
    *
-   * @param string $year.
+   * @param string $year
    *   Optional: year in YYYY format. Default current year.
    */
   public function addYear($year = 'now') {
@@ -128,4 +140,5 @@ class Filter {
   public function getQuery() {
     return $this->query;
   }
+
 }
