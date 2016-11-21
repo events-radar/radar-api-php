@@ -321,7 +321,7 @@ class Connect {
    *
    * TODO this doesn't need to be in here.
    */
-  protected function parseResponse(Response $response) {
+  public function parseResponse(Response $response) {
     $items = array();
 
     $content = $response->json();
@@ -333,10 +333,11 @@ class Connect {
       $items[] = new $class($content);
     }
     else {
-      $first_content_item = current($content);
+      $items = empty($content['result']) ? $content['result'] : array();
+      $first_content_item = current($items);
       if (!empty($first_content_item)) {
         // List response, that is non-empty.
-        foreach ($content as $key => $item) {
+        foreach ($items as $key => $item) {
           $class = __NAMESPACE__ . '\\Entity\\' . Entity::className($item['type']);
           $item['apiBase'] = $this->apiUrl;
           $items[] = new $class($item);
@@ -349,6 +350,23 @@ class Connect {
     }
 
     return $items;
+  }
+
+  /**
+   * Parse response metadata.
+   */
+  public function parseResponseMeta(Response $response) {
+    $output = [];
+    $content = $response->json();
+
+    if (isset($content['count'])) {
+      $output['count'] = $content['count'];
+    }
+    if (isset($content['facets'])) {
+      $output['facets'] = $content['facets'];
+    }
+
+    return $output;
   }
 
 }
