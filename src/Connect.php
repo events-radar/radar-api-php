@@ -49,7 +49,8 @@ class Connect {
       $this->apiUrl = $configuration['api_url'];
     }
     else {
-      $this->apiUrl = 'https://radar.squat.net/api/1.1/';
+      //$this->apiUrl = 'https://radar.squat.net/api/1.1/';
+      $this->apiUrl = 'http://radar.d7.montseny.iskranet/api/1.1/';
     }
     $this->debug = !empty($configuration['debug']);
   }
@@ -90,13 +91,13 @@ class Connect {
   }
 
   /**
-   * Compute url
+   * Compute url for cache storage.
    *
    * Language is for the language requested, not necessarily the language of
    * the entity, as different language requests can return different
    * langage entities (not necessarity corresponding) based on fallback.
    */
-  public function queryUri($entity) {
+  public function cacheUri($entity) {
     return $entity->apiUri() . '?language=' . $this->getLanguage();
   }
 
@@ -115,14 +116,19 @@ class Connect {
    *   The loaded entity.
    */
   public function retrieveEntity(Entity $entity) {
-    $uri = $this->queryUri($entity);
-    if (!empty($this->cache) && $this->cache->contains($uri)) {
-      return $this->cache->fetch($uri);
+    $cacheUri = $this->cacheUri($entity);
+    if (!empty($this->cache) && $this->cache->contains($cacheUri)) {
+      return $this->cache->fetch($cacheUri);
     }
-    $request = $this->client->get($uri);
+    $request = $this->client->get($entity->apiUri());
+    if ($this->getLanguage() != 'und') {
+      $query = $request->getQuery();
+      $query->set('language', $this->getLanguage());
+    }
+    $response = $this->retrieve($request);
     $entity = $this->parseResponse($response);
     if (!empty($this->cache)) {
-      $this->cache->save($uri, $entity);
+      $this->cache->save($cacheUri, $entity);
     }
     return $entity;
   }
@@ -142,8 +148,8 @@ class Connect {
     $cached = array();
     if (!empty($this->cache)) {
       foreach($entities as $key => $entity) {
-        if ($this->cache->contains($this->queryUri($entity))) {
-          $cached[] = $this->cache->fetch($this->queryUri($entity));
+        if ($this->cache->contains($this->cacheUri($entity))) {
+          $cached[] = $this->cache->fetch($this->cacheUri($entity));
           unset($entities[$key]);
         }
       }
@@ -151,13 +157,18 @@ class Connect {
 
     $requests = array();
     foreach ($entities as $entity) {
-      $requests[] = $this->client->get($this->queryUri($entity));
+      $request = $this->client->get($entity->apiUri());
+      if ($this->getLanguage() != 'und') {
+        $query = $request->getQuery();
+        $query->set('language', $this->getLanguage());
+      }
+      $requests[] = $request;
     }
     $retrieved = $this->retrieveMultiple($requests);
 
     if (!empty($this->cache)) {
       foreach ($retrieved as $entity) {
-        $this->cache->save($this->queryUri($entity), $entity);
+        $this->cache->save($this->cacheUri($entity), $entity);
       }
     }
 
@@ -172,8 +183,6 @@ class Connect {
 
   }
 
-
-
   /**
    * Prepare a request to retrieve events.
    *
@@ -184,16 +193,21 @@ class Connect {
    *   A list of fields to load. Optional, default is most available fields.
    * @param int $limit
    *   How many events to return.
+   * @param array $sort
+   *   Optional array ['field_name' => 'order'], where order is ASC or DESC. 
    *
    * @return \Guzzle\Http\Message\Request
    *   Request object to retrieve.
    */
-  public function prepareEventsRequest(Filter $filter, $fields = array(), $limit = 500) {
+  public function prepareEventsRequest(Filter $filter, $fields = array(), $limit = 500, $sort = array()) {
     $request = $this->client->get($this->apiUrl . 'search/events.json');
     $query = $request->getQuery();
     $query->set('facets', $filter->getQuery());
     if ($this->getLanguage() != 'und') {
       $query->set('language', $this->getLanguage());
+    }
+    if (!empty($sort)) {
+      $query->set('sort', $sort);
     }
     if (! empty($fields)) {
       // Always retrieve type.
@@ -237,17 +251,22 @@ class Connect {
    *   A list of fields to load. Optional, default is most available fields.
    * @param int $limit
    *   How many groups to return.
+   * @param array $sort
+   *   Optional array ['field_name' => 'order'], where order is ASC or DESC. 
    *
    * @return \Guzzle\Http\Message\Request
    *   Request object to retrieve.
    */
-  public function prepareGroupsRequest(Filter $filter, $fields = array(), $limit = 500) {
+  public function prepareGroupsRequest(Filter $filter, $fields = array(), $limit = 500, $sort = array()) {
     $request = $this->client->get($this->apiUrl . 'search/groups.json');
     $query = $request->getQuery();
     if ($this->getLanguage() != 'und') {
       $query->set('language', $this->getLanguage());
     }
     $query->set('facets', $filter->getQuery());
+    if (!empty($sort)) {
+      $query->set('sort', $sort);
+    }
     if (! empty($fields)) {
       $fields += array('type');
     }
@@ -333,11 +352,11 @@ class Connect {
       $items[] = new $class($content);
     }
     else {
-      $items = empty($content['result']) ? $content['result'] : array();
-      $first_content_item = current($items);
+      $result = empty($content['result']) ? array() : $content['result'];
+      $first_content_item = current($result);
       if (!empty($first_content_item)) {
         // List response, that is non-empty.
-        foreach ($items as $key => $item) {
+        foreach ($result as $key => $item) {
           $class = __NAMESPACE__ . '\\Entity\\' . Entity::className($item['type']);
           $item['apiBase'] = $this->apiUrl;
           $items[] = new $class($item);
