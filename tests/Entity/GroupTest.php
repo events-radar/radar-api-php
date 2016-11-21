@@ -17,7 +17,7 @@ class GroupTest extends EntityTestCase {
     $this->assertEquals($group->getInternalId(), '41');
     $this->assertEquals($group->getInternalVid(), '8935');
     // Node level fields
-    $this->assertEquals($group->apiUri(), 'https://radar.squat.net/api/1.0/node/0df4bcd7-54b4-4559-a960-60b5042d3d48');
+    $this->assertEquals($group->apiUri(), 'https://radar.squat.net/api/1.1/node/0df4bcd7-54b4-4559-a960-60b5042d3d48');
     $body_text = "<p>Joe's Garage is een ontmoetingsplek voor al dan niet krakers uit de transvaalbuurt en omstreken.</p>\n";
     $this->assertEquals($group->getBody(), $body_text);
     $this->assertEquals($group->getBodyRaw(), array('value' => $body_text, 'summary' => '', 'format' => 'rich_text_editor'));
@@ -29,11 +29,13 @@ class GroupTest extends EntityTestCase {
     // Node level references
     $categories = $group->getCategories();
     $this->assertEquals(count($categories), 6);
-    $this->assertTrue($categories[0] instanceof \Radar\Connect\Entity\TaxonomyTerm);
-    $this->assertEquals($categories[0]->apiUri(),'https://radar.squat.net/api/1.0/taxonomy_term/e97f372b-29bc-460b-bff6-35d2462411ff?language=nl');
+    $category = reset($categories);
+    $this->assertTrue($category instanceof \Radar\Connect\Entity\TaxonomyTerm);
+    $this->assertEquals($category->apiUri(),'https://radar.squat.net/api/1.1/taxonomy_term/e97f372b-29bc-460b-bff6-35d2462411ff?language=nl');
     $topics = $group->getTopics();
-    $this->assertTrue($topics[0] instanceof \Radar\Connect\Entity\TaxonomyTerm);
-    $this->assertEquals($topics[0]->apiUri(), 'https://radar.squat.net/api/1.0/taxonomy_term/82f00d0a-03df-40ec-a06d-67b875675858?language=nl');
+    $topic = reset($topics);
+    $this->assertTrue($topic instanceof \Radar\Connect\Entity\TaxonomyTerm);
+    $this->assertEquals($topic->apiUri(), 'https://radar.squat.net/api/1.1/taxonomy_term/82f00d0a-03df-40ec-a06d-67b875675858?language=nl');
     // Simple fields.
     $this->assertTrue($group instanceof Group);
     $this->assertEquals($group->getTitle(), 'Joe\'s Garage');
@@ -49,6 +51,6 @@ class GroupTest extends EntityTestCase {
     // Entity references.
     $locations = $group->getLocations();
     $this->assertTrue($locations[0] instanceof \Radar\Connect\Entity\Location);
-    $this->assertEquals($locations[0]->apiUri(), 'https://radar.squat.net/api/1.0/location/3c58abc1-e095-4db5-996d-2a064cebb2d3?language=nl');
+    $this->assertEquals($locations[0]->apiUri(), 'https://radar.squat.net/api/1.1/location/3c58abc1-e095-4db5-996d-2a064cebb2d3?language=nl');
   }
 }

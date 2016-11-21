@@ -20,15 +20,15 @@ class Cache {
     $this->cache = $cache;
   }
 
-  public function contains(Entity $entity) {
-    return $this->cache->contains($entity->apiUri());
+  public function contains($uri) {
+    return $this->cache->contains($uri);
   }
 
-  public function fetch(Entity $entity) {
-    return $this->cache->fetch($entity->apiUri());
+  public function fetch($uri) {
+    return $this->cache->fetch($uri);
   }
 
-  public function save(Entity $entity) {
+  public function save($uri, Entity $entity) {
     // TODO Make configurable.
     $ttl = array(
       'group' => 60 * 60,
@@ -37,10 +37,10 @@ class Cache {
       'location' => 60 * 60 * 24,
       'taxonomy_term' => 60 * 60 * 24 * 30,
     );
-    return $this->cache->save($entity->apiUri(), $entity, $ttl[$entity->type]);
+    return $this->cache->save($uri, $entity, $ttl[$entity->type]);
   }
 
-  public function delete(Entity $entity) {
-    return $this->cache->delete($entity->apiUri());
+  public function delete($uri) {
+    return $this->cache->delete($uri);
   }
 }

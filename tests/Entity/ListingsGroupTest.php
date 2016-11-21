@@ -18,7 +18,7 @@ class ListingsGroupTest extends EntityTestCase {
     $this->assertEquals($group->getInternalVid(), '8976');
     $this->assertEquals($group->getLanguage(), 'de');
     // Node level fields
-    $this->assertEquals($group->apiUri(), 'https://radar.squat.net/api/1.0/node/9e43dac6-e1da-4f60-8428-de9f32ac9eb0');
+    $this->assertEquals($group->apiUri(), 'https://radar.squat.net/api/1.1/node/9e43dac6-e1da-4f60-8428-de9f32ac9eb0');
     $body_text = "<p>Berliner Terminkalender für linke Subkultur und Politik</p>\n";
     $this->assertEquals($group->getBody(), $body_text);
     $this->assertEquals($group->getBodyRaw(), array('value' => $body_text, 'summary' => '', 'format' => 'rich_text_editor'));
@@ -46,6 +46,6 @@ class ListingsGroupTest extends EntityTestCase {
     $this->assertEquals(count($locations), 0);
     $listed_groups = $group->getGroupsListed();
     $this->assertEquals(count($listed_groups), 76);
-    $this->assertEquals($listed_groups[0]->apiUri(), 'https://radar.squat.net/api/1.0/node/da296694-ae72-47a9-9073-e450143b9c58');
+    $this->assertEquals($listed_groups[0]->apiUri(), 'https://radar.squat.net/api/1.1/node/da296694-ae72-47a9-9073-e450143b9c58');
   }
 }
