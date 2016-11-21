@@ -16,8 +16,17 @@ require('radar_client.php');
 
 // Shared radar connect client.
 $client = radar_client();
+
 // Basic cache for output.
 $cache = radar_cache();
+// If you want to empty the cache completely
+// $cache->flushAll();
+// If you want to remove one item like the stored HTML for evets.php
+// $cache->delete('events.php');
+
+// Add a prefered language for requests. If none is set 'und' is used and
+// content is returned in its original language, first language posted..
+$client->setLanguage('de');
 
 // Check to see if there is a copy in the cache.
 if ($cache->contains('events.php') && $page = $cache->fetch('events.php')) {
