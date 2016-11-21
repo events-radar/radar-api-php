@@ -30,6 +30,11 @@ class Connect {
   public $debug;
 
   /**
+   * @var string ISO 639-1 code.
+   */
+  public $language;
+
+  /**
    * Constructor.
    *
    * @param ClientInterface $client
@@ -44,7 +49,7 @@ class Connect {
       $this->apiUrl = $configuration['api_url'];
     }
     else {
-      $this->apiUrl = 'https://radar.squat.net/api/1.0/';
+      $this->apiUrl = 'https://radar.squat.net/api/1.1/';
     }
     $this->debug = !empty($configuration['debug']);
   }
@@ -66,6 +71,36 @@ class Connect {
   }
 
   /**
+   * Set, default, language for queries.
+   */
+  public function setLanguage($langcode) {
+    $this->language = $langcode;
+  }
+
+  /**
+   * Retrieve language code.
+   */
+  public function getLanguage() {
+    if (!empty($this->language)) {
+      return $this->language;
+    }
+    else {
+      return 'und';
+    }
+  }
+
+  /**
+   * Compute url
+   *
+   * Language is for the language requested, not necessarily the language of
+   * the entity, as different language requests can return different
+   * langage entities (not necessarity corresponding) based on fallback.
+   */
+  public function queryUri($entity) {
+    return $entity->apiUri() . '?language=' . $this->getLanguage();
+  }
+
+  /**
    * Retrieve all fields for single entity.
    *
    * Entities can be partly loaded. Especially when just a reference on
@@ -80,13 +115,14 @@ class Connect {
    *   The loaded entity.
    */
   public function retrieveEntity(Entity $entity) {
-    if (!empty($this->cache) && $this->cache->contains($entity)) {
-      return $this->cache->fetch($entity);
+    $uri = $this->queryUri($entity);
+    if (!empty($this->cache) && $this->cache->contains($uri)) {
+      return $this->cache->fetch($uri);
     }
-    $request = $this->client->get($entity->apiUri());
+    $request = $this->client->get($uri);
     $entity = $this->parseResponse($response);
     if (!empty($this->cache)) {
-      $this->cache->save($entity);
+      $this->cache->save($uri, $entity);
     }
     return $entity;
   }
@@ -106,8 +142,8 @@ class Connect {
     $cached = array();
     if (!empty($this->cache)) {
       foreach($entities as $key => $entity) {
-        if ($this->cache->contains($entity)) {
-          $cached[] = $this->cache->fetch($entity);
+        if ($this->cache->contains($this->queryUri($entity))) {
+          $cached[] = $this->cache->fetch($this->queryUri($entity));
           unset($entities[$key]);
         }
       }
@@ -115,13 +151,13 @@ class Connect {
 
     $requests = array();
     foreach ($entities as $entity) {
-      $requests[] = $this->client->get($entity->apiUri());
+      $requests[] = $this->client->get($this->queryUri($entity));
     }
     $retrieved = $this->retrieveMultiple($requests);
 
     if (!empty($this->cache)) {
       foreach ($retrieved as $entity) {
-        $this->cache->save($entity);
+        $this->cache->save($this->queryUri($entity), $entity);
       }
     }
 
@@ -156,6 +192,9 @@ class Connect {
     $request = $this->client->get($this->apiUrl . 'search/events.json');
     $query = $request->getQuery();
     $query->set('facets', $filter->getQuery());
+    if ($this->getLanguage() != 'und') {
+      $query->set('language', $this->getLanguage());
+    }
     if (! empty($fields)) {
       // Always retrieve type.
       $fields = array_merge($fields, array('type'));
@@ -205,6 +244,9 @@ class Connect {
   public function prepareGroupsRequest(Filter $filter, $fields = array(), $limit = 500) {
     $request = $this->client->get($this->apiUrl . 'search/groups.json');
     $query = $request->getQuery();
+    if ($this->getLanguage() != 'und') {
+      $query->set('language', $this->getLanguage());
+    }
     $query->set('facets', $filter->getQuery());
     if (! empty($fields)) {
       $fields += array('type');
