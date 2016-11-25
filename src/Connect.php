@@ -194,11 +194,13 @@ class Connect {
    *   How many events to return.
    * @param array $sort
    *   Optional array ['field_name' => 'order'], where order is ASC or DESC. 
+   * @param array $keys
+   *   Values for full text search ['search', 'words'] for OR ['search words'] for AND. 
    *
    * @return \Guzzle\Http\Message\Request
    *   Request object to retrieve.
    */
-  public function prepareEventsRequest(Filter $filter, $fields = array(), $limit = 500, $sort = array()) {
+  public function prepareEventsRequest(Filter $filter, $fields = array(), $limit = 500, $sort = array(), $keys = array()) {
     $request = $this->client->get($this->apiUrl . 'search/events.json');
     $query = $request->getQuery();
     $query->set('facets', $filter->getQuery());
@@ -207,6 +209,9 @@ class Connect {
     }
     if (!empty($sort)) {
       $query->set('sort', $sort);
+    }
+    if (!empty($keys)) {
+      $query->set('keys', $keys);
     }
     if (! empty($fields)) {
       // Always retrieve type.
@@ -252,11 +257,13 @@ class Connect {
    *   How many groups to return.
    * @param array $sort
    *   Optional array ['field_name' => 'order'], where order is ASC or DESC. 
+   * @param array $keys
+   *   Values for full text search ['search', 'words'] for OR ['search words'] for AND. 
    *
    * @return \Guzzle\Http\Message\Request
    *   Request object to retrieve.
    */
-  public function prepareGroupsRequest(Filter $filter, $fields = array(), $limit = 500, $sort = array()) {
+  public function prepareGroupsRequest(Filter $filter, $fields = array(), $limit = 500, $sort = array(), $keys = array()) {
     $request = $this->client->get($this->apiUrl . 'search/groups.json');
     $query = $request->getQuery();
     if ($this->getLanguage() != 'und') {
@@ -266,13 +273,18 @@ class Connect {
     if (!empty($sort)) {
       $query->set('sort', $sort);
     }
+    if (!empty($keys)) {
+      $query->set('keys', $keys);
+    }
     if (! empty($fields)) {
       $fields += array('type');
     }
     else {
       $fields = array(
+        'uuid',
         'title',
         'type',
+        'nid',
         'category',
         'offline',
         'topic',
