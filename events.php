@@ -54,10 +54,10 @@ if (!empty($html)) {
  * Make HTML page.
  */
 function radar_events_page_html($client) {
-	$request = radar_prepare_events_request($client);
+  $request = radar_prepare_events_request($client);
   $response = $client->retrieveResponse($request);
-	$events = $client->parseResponse($response);
-	$metadata = $client->parseResponseMeta($response);
+  $events = $client->parseResponse($response);
+  $metadata = $client->parseResponseMeta($response);
   return radar_events_format($client, $events, $metadata);
 }
 
@@ -76,13 +76,13 @@ function radar_prepare_events_request(\Radar\Connect\Connect $client) {
   // Alternatives:-
   //$filter->addCity('Amsterdam');
   //$filter->addDate(new DateTime('tomorrow'));
-	//$filter->addDay();
-	//$filter->addCategory('music');
-	//Some filters don't have explicit methods to set them so for tags...
-	//$filter->add('tag', 'Punk');
-	// See docs/classes/Radar.Connect.Filter.html for full list of methods.
-	// You can also see all the filter values and their counts in the metadata
-	// returned. See the examples at the top of radar_events_format().
+  //$filter->addDay();
+  //$filter->addCategory('music');
+  //Some filters don't have explicit methods to set them so for tags...
+  //$filter->add('tag', 'Punk');
+  // See docs/classes/Radar.Connect.Filter.html for full list of methods.
+  // You can also see all the filter values and their counts in the metadata
+  // returned. See the examples at the top of radar_events_format().
 
   // Get the request.
   // arguments:
@@ -116,30 +116,30 @@ function radar_events_format(\Radar\Connect\Connect $client, array $events, arra
   $html = '';
 
   // Metadata includes the result count.
-	print "<p>There are {$metadata['count']} results for the query</p>\n";
+  print "<p>There are {$metadata['count']} results for the query</p>\n";
 
-	// Retrieve some facets. Summaries of filters you can use
-	// in further narrowed queries, and their result counts.
-	print '<h1>Forthcoming days</h1><ul>';
-	foreach ($metadata['facets']['date'] as $facet) {
+  // Retrieve some facets. Summaries of filters you can use
+  // in further narrowed queries, and their result counts.
+  print '<h1>Forthcoming days</h1><ul>';
+  foreach ($metadata['facets']['date'] as $facet) {
     print '<li>' . date('Y-m-d', $facet['formatted']) . " has {$facet['count']} events</li>\n";
-	}
-	print "</ul>\n";
+  }
+  print "</ul>\n";
 
-	// For other factets it's even more convenient. The 'filter' value is also the value you set to filter the query.
+  // For other factets it's even more convenient. The 'filter' value is also the value you set to filter the query.
   print "<h1>Categories</h1><ul>\n";
-	foreach ($metadata['facets']['category'] as $facet) {
+  foreach ($metadata['facets']['category'] as $facet) {
     print "<li>{$facet['formatted']} has {$facet['count']} events you could add a filter for them with the \$filter->addCategory('{$facet['filter']}');</li>\n";
-	}
-	print "<ul>\n";
+  }
+  print "<ul>\n";
 
-	// There's no direct method to set the tag filter. They can all be set using the key that is in this array - here tag.
-	// So in the example above instead of $filter->addCategory you could have equally $filter->add('category', $facet['filter']);
-	print "<h1>Tags</h1><ul>\n";
-	foreach ($metadata['facets']['tag'] as $facet) {
-	  print "<li>{$facet['formatted']} has {$facet['count']} events you could add a filter for them with the \$filter->add('tag', '{$facet['filter']}');</li>\n";
-	}
-	print "<ul>\n";
+  // There's no direct method to set the tag filter. They can all be set using the key that is in this array - here tag.
+  // So in the example above instead of $filter->addCategory you could have equally $filter->add('category', $facet['filter']);
+  print "<h1>Tags</h1><ul>\n";
+  foreach ($metadata['facets']['tag'] as $facet) {
+    print "<li>{$facet['formatted']} has {$facet['count']} events you could add a filter for them with the \$filter->add('tag', '{$facet['filter']}');</li>\n";
+  }
+  print "<ul>\n";
 
   foreach ($events as $event) {
     // Title and date.
@@ -154,8 +154,8 @@ function radar_events_format(\Radar\Connect\Connect $client, array $events, arra
     $groups = $event->getGroups();
     $groups = $client->retrieveEntityMultiple($groups);
     foreach ($groups as $group) {
-	    print '<p><strong>' . $group->getTitle() . '</strong></p>';
-	    print '<p>' . var_dump($group->getLink(), true) . ' ' . var_dump($group->getLinkRaw(), true) . '</strong></p>';
+      print '<p><strong>' . $group->getTitle() . '</strong></p>';
+      print '<p>' . var_dump($group->getLink(), true) . ' ' . var_dump($group->getLinkRaw(), true) . '</strong></p>';
     }
 
     // Just as with the groups the locations are just the references.

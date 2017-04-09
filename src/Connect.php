@@ -303,20 +303,20 @@ class Connect {
   }
 
   /**
-	 * Retrieve API response from a prepared request.
-	 *
-	 * @param \Guzzle\Http\Message\RequestInterface $request
-	 *
-	 * @return \Guzzle\Http\Message\Response
-	 */
+   * Retrieve API response from a prepared request.
+   *
+   * @param \Guzzle\Http\Message\RequestInterface $request
+   *
+   * @return \Guzzle\Http\Message\Response
+   */
   public function retrieveResponse(RequestInterface $request) {
     $response = $this->client->send($request);
     if ($this->debug) {
       var_export($response->getHeaders());
       var_export($response->getBody());
-		}
-		return $response;
-	}
+    }
+    return $response;
+  }
 
   /**
    * Retrieve entities from a prepared request.
