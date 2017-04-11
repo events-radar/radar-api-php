@@ -290,7 +290,7 @@ class Connect {
         'topic',
         'body',
         'email',
-        'weblink',
+        'link',
         'offline',
         'opening_times',
         'phone',
