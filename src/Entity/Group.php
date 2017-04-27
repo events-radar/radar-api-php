@@ -17,17 +17,42 @@ class Group extends Node {
   }
 
   /**
-   * TODO not appearing in the API output.
+   * Logo raw data.
    */
   public function getGroupLogoRaw() {
     return $this->group_logo;
   }
 
   /**
-   * TODO not appearing in the API output.
+   * Logo file object.
+   *
+   * @return File|NULL
+   */
+  public function getGroupLogo() {
+    if (!empty($this->group_logo)) {
+      return new RadarFile($this->group_logo);
+    }
+    return NULL;
+  }
+
+
+  /**
+   * Raw image entity array.
    */
   public function getImageRaw() {
-    return $this->image->file;
+    return $this->image;
+  }
+
+  /**
+   * Return image entity object.
+   *
+   * @return RadarFile|NULL
+   */
+  public function getImage() {
+    if (!empty($this->image->file)) {
+      return new RadarFile($this->image);
+    }
+    return NULL;
   }
 
   /**

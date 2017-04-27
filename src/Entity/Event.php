@@ -87,11 +87,21 @@ class Event extends Node {
 
   /**
    * Return image field data.
-   *
-   * TODO API isn't putting the data into the output.
    */
   public function getImageRaw() {
-    return $this->image;
+    return $this->image['file'];
+  }
+
+  /**
+   * Return image file object.
+   *
+   * @return RadarFile|NULL
+   */
+  public function getImage() {
+    if (!empty($this->image['file'])) {
+      return new RadarFile($this->image['file']);
+    }
+    return NULL;
   }
 
   public function getPriceCategoryRaw() {

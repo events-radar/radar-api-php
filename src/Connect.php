@@ -124,8 +124,7 @@ class Connect {
       $query = $request->getQuery();
       $query->set('language', $this->getLanguage());
     }
-    $response = $this->retrieve($request);
-    $entity = $this->parseResponse($response);
+    $entity = $this->retrieve($request);
     if (!empty($this->cache)) {
       $this->cache->save($cacheUri, $entity);
     }
@@ -331,7 +330,9 @@ class Connect {
       var_export($response->getHeaders());
       var_export($response->getBody());
     }
-    return $this->parseResponse($response);
+    $items = $this->parseResponse($response);
+    $entity = reset($items);
+    return $entity;
   }
 
   /**

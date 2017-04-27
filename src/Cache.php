@@ -36,6 +36,7 @@ class Cache {
       'event' => 60 * 5,
       'location' => 60 * 60 * 24,
       'taxonomy_term' => 60 * 60 * 24 * 30,
+      'file' => 60 * 60,
     );
     return $this->cache->save($uri, $entity, $ttl[$entity->type]);
   }

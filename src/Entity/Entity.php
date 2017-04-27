@@ -27,6 +27,7 @@ abstract class Entity {
       'category' => 'TaxonomyTerm',
       'topic' => 'TaxonomyTerm',
       'price' => 'TaxonomyTerm',
+      'file' => 'RadarFile',
     );
     return $classes[$type];
   }
